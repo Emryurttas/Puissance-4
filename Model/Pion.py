@@ -75,3 +75,17 @@ def getIdPion(pion: dict) -> str:
         raise TypeError("getIdPion : Le premier paramètre n’est pas un pion")
     id = pion[const.ID]
     return id
+
+def setIdPion(pion: dict, id: int)->None:
+    """
+    fonction qui modifie l'identifiant passé en paramètre
+    :param pion: dictionnaire qui définit le pion
+    :param id: entier qui va remplacer l'identifiant du pion
+    :return:
+    """
+    if type(pion) is not dict:
+        raise TypeError("setIdPion : Le premier paramètre n’est pas un pion")
+    if type(id) is not int:
+        raise TypeError("setIdPion : Le premier paramètre n’est pas un pion")
+    pion[const.ID] = id
+    return None
