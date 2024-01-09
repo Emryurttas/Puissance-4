@@ -54,7 +54,7 @@ def setCouleurPion(pion: dict, couleur: int) -> None:
     fonction qui modifie la couleur du pion passé en paramètre
     :param pion: dictionnaire qui définit le pion
     :param couleur:
-    :return:
+    :return:ne retourne rien
     """
     if type(pion) is not dict:
         raise TypeError("setCouleurPion : Le premier paramètre n’est pas un pion")
@@ -81,7 +81,7 @@ def setIdPion(pion: dict, id: int)->None:
     fonction qui modifie l'identifiant passé en paramètre
     :param pion: dictionnaire qui définit le pion
     :param id: entier qui va remplacer l'identifiant du pion
-    :return:
+    :return: ne retourne rien
     """
     if type(pion) is not dict:
         raise TypeError("setIdPion : Le premier paramètre n’est pas un pion")
