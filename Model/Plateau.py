@@ -34,4 +34,18 @@ def type_plateau(plateau: list) -> bool:
         return False
     return True
 
+def construirePlateau()->list:
+    """
+    fonction qui créé un tableau 2D vide avec nb_ligne et nb_colonne qui qui sont constantes.
+    :return:retourne une liste de liste avec nb_ligne et nb_colonne qui qui sont constantes.
+    """
+    plateau = []
+    for ligne in range(const.NB_LINES):
+        tab = []
+        for col in range(const.NB_COLUMNS):
+            tab.append(None)
+        plateau.append(tab)
+    return plateau
+
+
 
