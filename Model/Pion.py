@@ -26,3 +26,16 @@ def type_pion(pion: dict) -> bool:
         and (pion[const.ID] is None or type(pion[const.ID]) == int)
 
 
+def construirePion(couleur: int) -> dict:
+    """
+    fonction qui construit un pion avec la couleur passé en paramètre
+    :param couleur: défini par 0 ou 1 pour indiqué la couleur du pion (jaune ou rouge)
+    :return: retourne un dictionnaire définissant le pion
+    """
+    if type(couleur) is not int:
+        raise TypeError('construirePion : Le paramètre n’est pas de type entier')
+    if couleur not in const.COULEURS:
+        raise ValueError(f'construirePion : la couleur {couleur} n’est pas correcte ')
+    pion = {const.COULEUR: couleur, const.ID: None}
+    return pion
+
