@@ -36,7 +36,7 @@ def type_plateau(plateau: list) -> bool:
 
 def construirePlateau()->list:
     """
-    fonction qui créé un tableau 2D vide avec nb_ligne et nb_colonne qui sont constantes.
+    Fonction qui créé un tableau 2D vide avec nb_ligne et nb_colonne qui sont constantes.
     :return:retourne une liste de liste avec nb_ligne et nb_colonne qui sont constantes.
     """
     plateau = []
@@ -49,7 +49,7 @@ def construirePlateau()->list:
 
 def placerPionPlateau(plateau: list, pion: dict, num_col: int) -> int:
     """
-    fonction qui dépose le pion dans la colonne indiquée
+    Fonction qui dépose le pion dans la colonne indiquée
     :param plateau: liste de liste qui définit le plateau du jeu
     :param pion: dictionnaire qui définit la couleur et l'identifiant du pion
     :param num_col: le numéro de colonne pour placer le pion dans le plateau
@@ -88,19 +88,63 @@ def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
         raise ValueError(f"detecter4horizontalPlateau : La valeur de la couleur {couleur} n’est pas correcte")
     serie_liste = []
     compteur = 0
+    derniere_ligne = None
     for ligne in range(const.NB_LINES):
         for col in range(const.NB_COLUMNS):
             if plateau[ligne][col] == couleur:
                 compteur += 1
-                if compteur == 4:
+                if compteur == 4 and col >= 3:
                     serie_liste.extend([
-                        {const.COULEUR: couleur, const.ID: None},
-                        {const.COULEUR: couleur, const.ID: None},
-                        {const.COULEUR: couleur, const.ID: None},
-                        {const.COULEUR: couleur, const.ID: None},
+                        {const.COULEUR: couleur},
+                        {const.COULEUR: couleur},
+                        {const.COULEUR: couleur},
+                        {const.COULEUR: couleur},
                     ])
+                    compteur = 0
             else:
                 compteur = 0
+
+        if derniere_ligne is not None and derniere_ligne != ligne:
+            compteur = 0
+        derniere_ligne = ligne
     return serie_liste
 
+def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
+    """
+    Fonction qui permet de détecter si 4 pions de la même couleur passé en paramètre sont alignés verticalement dans le plateau
+    :param plateau: Liste de liste qui définit le plateau du jeu
+    :param couleur:Défini par 0 ou 1 pour indiquer la couleur du pion (jaune ou rouge)
+    :return:retourne une liste vide s’il n’y a aucune série de 4 pions de la couleur donnée alignés
+    verticalement, sinon une liste de ces pions qui sont alignés par 4
+    """
+    if type(plateau) is not list:
+        raise TypeError("detecter4verticalPlateau : Le premier paramètre ne correspond pas à un plateau")
+    if type(couleur) is not int:
+        raise TypeError("detecter4verticalPlateau : Le second paramètre n’est pas un entier")
+    if couleur not in [0, 1]:
+        raise ValueError(f"detecter4verticalPlateau : La valeur de la couleur {couleur} n’est pas correcte")
+
+    serie_liste = []
+    compteur = 0
+    derniere_colonne = None
+
+    for col in range(const.NB_COLUMNS):
+        for ligne in range(const.NB_LINES):
+            if plateau[ligne][col] == couleur:
+                compteur += 1
+                if compteur == 4 and ligne >= 3:
+                    serie_liste.extend([
+                        {const.COULEUR: couleur},
+                        {const.COULEUR: couleur},
+                        {const.COULEUR: couleur},
+                        {const.COULEUR: couleur},
+                    ])
+                    compteur = 0
+            else:
+                compteur = 0
+
+        if derniere_colonne is not None and derniere_colonne != col:
+            compteur = 0
+        derniere_colonne = col
+    return serie_liste
 

@@ -13,15 +13,29 @@ print("\x1B[41m \x1B[0m : carré rouge ")
 print("\x1B[41mA\x1B[0m : A sur fond rouge")
 def test_detecter4horizontalPlateau () -> None:
     exemple_plateau = [
-        [0, 1, 0, 1, 1, 0, 0],
-        [1, 1, 0, 1, 0, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 1, 0, 1],
-        [0, 0, 0, 0, 1, 1, 1],
-        [0, 1, 0, 1, 1, 1, 1],
+        [1, 1, 0, 1, 0, 1, 1],
+        [1, 1, 1, 0, 1, 1, 0],
+        [1, 1, 1, 0, 1, 1, 1],
+        [1, 1, 1, 0, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 0, 1, 1, 1],
     ]
     resultat_detection = detecter4horizontalPlateau(exemple_plateau, 1)
     print(resultat_detection)
     return None
 
 test_detecter4horizontalPlateau()
+
+def test_detecter4verticalPlateau () -> None:
+    exemple_plateau = [
+        [1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 1, 1, 0, 1],
+        [1, 0, 0, 0, 0, 1, 0],
+        [0, 1, 1, 0, 1, 1, 1],
+        [1, 0, 0, 1, 1, 1, 1],
+        [1, 1, 0, 1, 1, 1, 1],
+    ]
+    resultat_detection = detecter4verticalPlateau(exemple_plateau, 1)
+    print(resultat_detection)
+    return None
+
