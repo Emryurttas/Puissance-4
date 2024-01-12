@@ -24,7 +24,7 @@ def test_detecter4horizontalPlateau () -> None:
     print(resultat_detection)
     return None
 
-test_detecter4horizontalPlateau()
+
 
 def test_detecter4verticalPlateau () -> None:
     exemple_plateau = [
@@ -38,4 +38,16 @@ def test_detecter4verticalPlateau () -> None:
     resultat_detection = detecter4verticalPlateau(exemple_plateau, 1)
     print(resultat_detection)
     return None
-
+def test_detecter4diagonaleDirectePlateau() -> None:
+    exemple_plateau = [
+        [1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 0, 0, 0, 1],
+        [1, 0, 1, 1, 0, 1, 0],
+        [0, 0, 0, 1, 1, 0, 1],
+        [1, 0, 1, 0, 1, 1, 0],
+        [1, 1, 0, 1, 0, 1, 1],
+    ]
+    resultat_detection = detecter4diagonaleDirectePlateau(exemple_plateau, 0)
+    print(resultat_detection)
+    return None
+test_detecter4diagonaleDirectePlateau()
