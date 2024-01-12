@@ -152,7 +152,7 @@ def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
 
 def detecter4diagonaleDirectePlateau(plateau: list, couleur: int) -> list:
     """
-    Fonction qui détécte si il ya un diagonale directe de 4 pions de la même couleur passé en paramètre
+    Fonction qui détécte s'il ya un ou plusieurs diagonale directe de 4 pions de la même couleur passé en paramètre
     :param plateau: Liste de liste qui définit le plateau du jeu
     :param couleur: Défini par 0 ou 1 pour indiquer la couleur du pion (jaune ou rouge)
     :return: retourne une liste vide s’il n’y a aucune série de 4 pions de la couleur donnée alignee
@@ -163,7 +163,7 @@ def detecter4diagonaleDirectePlateau(plateau: list, couleur: int) -> list:
     if type(couleur) is not int:
         raise TypeError("detecter4diagonaleDirectePlateau : Le second paramètre n’est pas un entier")
     if couleur not in [0, 1]:
-        raise ValueError("detecter4diagonaleDirectePlateau : La valeur de la couleur (valeur_du_paramètre) n’est pas correcte")
+        raise ValueError(f"detecter4diagonaleDirectePlateau : La valeur de la couleur {couleur} n’est pas correcte")
     serie_liste = []
     tab = []
     for ligne in range(const.NB_LINES - 3):
@@ -179,8 +179,45 @@ def detecter4diagonaleDirectePlateau(plateau: list, couleur: int) -> list:
                     i += 1
                 if i == 4:
                     tab.extend(coord_pions)
+
     for i in range(len(tab)):
         serie_liste.append({const.COULEUR: couleur})
 
+    return serie_liste
+
+
+def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
+    """
+    Fonction qui détécte s'il ya un ou plusieurs diagonales indirecte de 4 pions de la même couleur passé en paramètre
+    :param plateau: Liste de liste qui définit le plateau du jeu
+    :param couleur: Défini par 0 ou 1 pour indiquer la couleur du pion (jaune ou rouge)
+    :return:retourne une liste vide s’il n’y a aucune série de 4 pions de la couleur donnée
+    alignés sur une diagonale « indirecte », sinon une liste de ces pions qui sont alignés par 4
+    """
+    if type(plateau) is not list:
+        raise TypeError("detecter4diagonaleIndirectePlateau : Le premier paramètre ne correspond pas à un plateau")
+    if type(couleur) is not int:
+        raise TypeError("detecter4diagonaleIndirectePlateau : Le second paramètre n’est pas un entier")
+    if couleur not in [0, 1]:
+        raise ValueError(f"detecter4diagonaleDirectePlateau : La valeur de la couleur {couleur} n’est pas correcte")
+    serie_liste = []
+    tab = []
+    for ligne in range(3, const.NB_LINES):
+        for col in range(const.NB_COLUMNS - 3):
+            if plateau[ligne][col] == couleur and plateau[ligne-1][col+1] == couleur and plateau[ligne-2][col+2] == couleur and plateau[ligne-3][col+3] == couleur:
+                coord_pions = [
+                    (ligne - 3, col + 3),
+                    (ligne - 2, col + 2),
+                    (ligne - 1, col + 1),
+                    (ligne, col)
+                ]
+
+                i = 0
+                while i < 4 and not (coord_pions[i] in tab):
+                    i += 1
+                if i == 4:
+                    tab.extend(coord_pions)
+    for i in range(len(tab)):
+        serie_liste.append({const.COULEUR: couleur})
     return serie_liste
 
