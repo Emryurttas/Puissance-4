@@ -67,3 +67,17 @@ def test_detecter4diagonaleIndirectePlateau() -> None:
     print(resultat_detection)
     return None
 test_detecter4horizontalPlateau()
+
+def test_getPionsGagnantsPlateau() -> None:
+    exemple_plateau = [
+        [1, 1, 0, 1, 0, 1, 1],
+        [0, 0, 0, 1, 1, 0, 1],
+        [1, 0, 1, 0, 0, 1, 0],
+        [0, 1, 1, 1, 0, 1, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 1, 1, 0, 1, 1, 1],
+    ]
+    resultat_detection = getPionsGagnantsPlateau(exemple_plateau)
+    print(resultat_detection)
+    return None
+test_getPionsGagnantsPlateau()

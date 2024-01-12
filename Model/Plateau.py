@@ -221,3 +221,27 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
         serie_liste.append({const.COULEUR: couleur})
     return serie_liste
 
+
+def getPionsGagnantsPlateau(plateau: list) -> list:
+    """
+    Fonction qui cherche toutes les séries s de 4 pions alignés trouvées, pour
+    les deux couleurs
+    :param plateau:Liste de liste qui définit le plateau du jeu
+    :return:retourne la liste de toutes les séries de 4 pions alignés trouvées, pour
+    les deux couleurs
+    """
+    if type(plateau) is not list:
+        raise TypeError("getPionsGagnantsPlateau : Le premier paramètre ne correspond pas à un plateau")
+    pions_gagnants = []
+
+    for couleur in [0, 1]:
+        series_couleur = []
+        series_couleur.extend(detecter4diagonaleIndirectePlateau(plateau, couleur))
+        series_couleur.extend(detecter4diagonaleDirectePlateau(plateau, couleur))
+        series_couleur.extend(detecter4verticalPlateau(plateau, couleur))
+        series_couleur.extend(detecter4horizontalPlateau(plateau, couleur))
+
+        if series_couleur:
+            pions_gagnants.append(series_couleur)
+
+    return pions_gagnants
