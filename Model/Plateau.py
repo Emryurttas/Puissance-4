@@ -266,3 +266,18 @@ def isRempliPlateau(plateau: list) -> bool:
     return est_rempli
 
 
+def construireJoueur(couleur: int) -> dict:
+    """
+    Fonction qui permet de construire un joueur en l'associant à un couleur
+    :param couleur: Défini par 0 ou 1 pour indiquer la couleur du pion (jaune ou rouge)
+    :return: retourne un dictionnaire représentant un joueur dans lequel la
+    couleur sera initialisée avec le paramètre donné
+    """
+
+    if type(couleur) is not int:
+        raise TypeError("detecter4diagonaleDirectePlateau : Le second paramètre n’est pas un entier")
+
+    if couleur not in const.COULEURS:
+        raise ValueError(f"detecter4diagonaleDirectePlateau : La valeur de la couleur {couleur} n’est pas correcte")
+    joueur = {const.COULEUR: couleur, const.PLATEAU: None, const.PLACER_PION: None}
+    return joueur
