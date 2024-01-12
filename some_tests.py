@@ -81,3 +81,17 @@ def test_getPionsGagnantsPlateau() -> None:
     print(resultat_detection)
     return None
 test_getPionsGagnantsPlateau()
+
+def test_isRempliPlateau() -> None:
+    exemple_plateau = [
+        [1, 1, 0, 1, 0, 1, 1],
+        [0, 0, 0, 1, 1, 0, 1],
+        [1, 0, 1, 0, 0, 1, 0],
+        [0, 1, 1, None, 0, 1, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 1, 1, 0, 1, 1, 1],
+    ]
+    resultat_detection = isRempliPlateau(exemple_plateau)
+    print(resultat_detection)
+    return None
+test_isRempliPlateau()

@@ -231,7 +231,7 @@ def getPionsGagnantsPlateau(plateau: list) -> list:
     les deux couleurs
     """
     if type(plateau) is not list:
-        raise TypeError("getPionsGagnantsPlateau : Le premier paramètre ne correspond pas à un plateau")
+        raise TypeError("getPionsGagnantsPlateau : Le paramètre ne correspond pas à un plateau")
     pions_gagnants = []
 
     for couleur in [0, 1]:
@@ -243,5 +243,26 @@ def getPionsGagnantsPlateau(plateau: list) -> list:
 
         if series_couleur:
             pions_gagnants.append(series_couleur)
-
     return pions_gagnants
+
+def isRempliPlateau(plateau: list) -> bool:
+    """
+    Fonction qui permet de déterminer si un plateau est rempli
+    :param plateau: Liste de liste qui définit le plateau du jeu
+    :return: i retourne True si le plateau est complètement rempli de pions, False sinon
+    """
+    if type(plateau) is not list:
+        raise TypeError("isRempliPlateau : Le paramètre ne correspond pas à un plateau")
+    i = 0
+    est_rempli = True
+
+    while i < len(plateau) and est_rempli:
+        j = 0
+        while j < len(plateau[i]) and est_rempli:
+            if plateau[i][j] is None:
+                est_rempli = False
+            j += 1
+        i += 1
+    return est_rempli
+
+
