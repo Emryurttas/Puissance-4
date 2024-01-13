@@ -87,26 +87,23 @@ def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
     if couleur not in [0, 1]:
         raise ValueError(f"detecter4horizontalPlateau : La valeur de la couleur {couleur} n’est pas correcte")
     serie_liste = []
-    compteur = 0
-    derniere_ligne = None
+    tab = []
     for ligne in range(const.NB_LINES):
-        for col in range(const.NB_COLUMNS):
-            if plateau[ligne][col] == couleur:
-                compteur += 1
-                if compteur == 4 and col >= 3:
-                    serie_liste.extend([
-                        {const.COULEUR: couleur},
-                        {const.COULEUR: couleur},
-                        {const.COULEUR: couleur},
-                        {const.COULEUR: couleur},
-                    ])
-                    compteur = 0
-            else:
-                compteur = 0
+        for col in range(const.NB_COLUMNS-3):
+            if plateau[ligne][col] == couleur and plateau[ligne][col + 1] == couleur and plateau[ligne][col + 2] == couleur and plateau[ligne][col + 3] == couleur:
+                coord_pions = [(ligne, col),
+                               (ligne, col + 1),
+                               (ligne, col + 2),
+                               (ligne, col + 3)
+                               ]
+                i = 0
+                while i < 4 and not (coord_pions[i] in tab):
+                    i += 1
+                if i == 4:
+                    tab.extend(coord_pions)
 
-        if derniere_ligne is not None and derniere_ligne != ligne:
-            compteur = 0
-        derniere_ligne = ligne
+    for i in range(len(tab)):
+        serie_liste.append({const.COULEUR: couleur})
     return serie_liste
 
 def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
@@ -125,27 +122,23 @@ def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
         raise ValueError(f"detecter4verticalPlateau : La valeur de la couleur {couleur} n’est pas correcte")
 
     serie_liste = []
-    compteur = 0
-    derniere_colonne = None
-
+    tab = []
     for col in range(const.NB_COLUMNS):
-        for ligne in range(const.NB_LINES):
-            if plateau[ligne][col] == couleur:
-                compteur += 1
-                if compteur == 4 and ligne >= 3:
-                    serie_liste.extend([
-                        {const.COULEUR: couleur},
-                        {const.COULEUR: couleur},
-                        {const.COULEUR: couleur},
-                        {const.COULEUR: couleur},
-                    ])
-                    compteur = 0
-            else:
-                compteur = 0
+        for ligne in range(const.NB_LINES-3):
+            if plateau[ligne][col] == couleur and plateau[ligne+1][col] == couleur and plateau[ligne+2][col] == couleur and plateau[ligne+3][col] == couleur:
+                coord_pions = [(ligne, col),
+                               (ligne+1, col),
+                               (ligne+2, col),
+                               (ligne+3, col)
+                               ]
+                i = 0
+                while i < 4 and not (coord_pions[i] in tab):
+                    i += 1
+                if i == 4:
+                    tab.extend(coord_pions)
 
-        if derniere_colonne is not None and derniere_colonne != col:
-            compteur = 0
-        derniere_colonne = col
+    for i in range(len(tab)):
+        serie_liste.append({const.COULEUR: couleur})
     return serie_liste
 
 
@@ -241,6 +234,7 @@ def getPionsGagnantsPlateau(plateau: list) -> list:
         pions_gagnants.extend(detecter4horizontalPlateau(plateau, couleur))
 
     return pions_gagnants
+
 
 def isRempliPlateau(plateau: list) -> bool:
     """

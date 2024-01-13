@@ -13,7 +13,7 @@ print("\x1B[41m \x1B[0m : carré rouge ")
 print("\x1B[41mA\x1B[0m : A sur fond rouge")
 def test_detecter4horizontalPlateau () -> None:
     exemple_plateau = [
-        [1, 1, 0, 1, 0, 1, 1],
+        [1, 1, 1, 1, 0, 1, 1],
         [1, 1, 1, 0, 1, 1, 0],
         [1, 1, 1, 0, 1, 1, 1],
         [1, 1, 1, 0, 1, 1, 1],
@@ -74,22 +74,10 @@ def test_getPionsGagnantsPlateau() -> None:
         [0, 0, 0, 1, 1, 0, 1],
         [1, 0, 1, 0, 0, 1, 0],
         [0, 1, 1, 1, 0, 1, 0],
-        [0, 0, 0, 1, 0, 0, 0],
+        [1, 0, 0, 1, 0, 0, 0],
         [0, 1, 1, 0, 1, 1, 1],
     ]
     resultat_detection = getPionsGagnantsPlateau(exemple_plateau)
     print(resultat_detection)
     return None
 test_getPionsGagnantsPlateau()
-def test_isRempliPlateau() -> None:
-    exemple_plateau = [
-        [1, 1, 0, 1, 0, 1, 1],
-        [0, 0, 0, 1, 1, 0, 1],
-        [1, 0, 1, 0, 0, 1, 0],
-        [0, 1, 1, 1, 0, 1, 0],
-        [0, 0, 0, 1, 0, 0, 0],
-        [0, 1, 1, 0, 1, 1, 1],
-    ]
-    resultat_detection = isRempliPlateau(exemple_plateau)
-    print(resultat_detection)
-    return None
