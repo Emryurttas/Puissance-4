@@ -26,10 +26,10 @@ def test_detecter4horizontalPlateau () -> None:
 
 test_detecter4horizontalPlateau()
 
-def test_detecter4verticalPlateau () -> None:
+def test_detecter4verticalPlateau() -> None:
     exemple_plateau = [
         [1, 1, 1, 1, 1, 1, 1],
-        [0, 1, 1, 1, 1, 0, 1],
+        [0, 0, 1, 1, 1, 0, 1],
         [1, 0, 0, 0, 0, 1, 0],
         [0, 1, 1, 0, 1, 1, 1],
         [1, 0, 0, 1, 1, 1, 1],
