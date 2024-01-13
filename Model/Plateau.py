@@ -277,7 +277,7 @@ def construireJoueur(couleur: int) -> dict:
     if type(couleur) is not int:
         raise TypeError("detecter4diagonaleDirectePlateau : Le second paramètre n’est pas un entier")
 
-    if couleur not in const.COULEURS:
+    if couleur not in [0, 1]:
         raise ValueError(f"detecter4diagonaleDirectePlateau : La valeur de la couleur {couleur} n’est pas correcte")
     joueur = {const.COULEUR: couleur, const.PLATEAU: None, const.PLACER_PION: None}
     return joueur

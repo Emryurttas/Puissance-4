@@ -35,3 +35,36 @@ def type_joueur(joueur: dict) -> bool:
     return True
 
 
+def getCouleurJoueur(joueur: dict) -> int:
+    """
+    Fonction qui reçoit un dictionnaire représentant un joueur et renvoie la couleur du joueur
+    :param joueur:Dictionnaire représentant un joueur
+    :return:La couleur du joueur (0 ou 1)
+    """
+    if not type_joueur(joueur):
+        raise TypeError("getCouleurJoueur : Le paramètre ne correspond pas à un joueur")
+    couleur = joueur[const.COULEUR]
+    return couleur
+
+def plateauJoueur(joueur: dict) -> list:
+    """
+        Fonction qui reçoit un dictionnaire représentant un joueur et renvoie le plateau du joueur
+        :param joueur: Dictionnaire représentant un joueur
+        :return: Le plateau du joueur (une liste de listes)
+        """
+    if not type_joueur(joueur):
+        raise TypeError("getCouleurJoueur : Le paramètre ne correspond pas à un joueur")
+    plateau = joueur[const.PLATEAU]
+
+    return plateau
+
+def getPlacerPionJoueur(joueur: dict):
+    """
+    Fonction qui reçoit un dictionnaire représentant un joueur et renvoie la fonction de placement de pion du joueur
+    :param joueur: Dictionnaire représentant un joueur
+    :return: La fonction de placement de pion du joueur
+    """
+    if not type_joueur(joueur):
+        raise TypeError("getCouleurJoueur : Le paramètre ne correspond pas à un joueur")
+    placer_pion = joueur[const.PLACER_PION]
+    return placer_pion
