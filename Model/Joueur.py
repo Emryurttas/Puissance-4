@@ -46,25 +46,38 @@ def getCouleurJoueur(joueur: dict) -> int:
     couleur = joueur[const.COULEUR]
     return couleur
 
-def plateauJoueur(joueur: dict) -> list:
+def getplateauJoueur(joueur: dict) -> list:
     """
         Fonction qui reçoit un dictionnaire représentant un joueur et renvoie le plateau du joueur
         :param joueur: Dictionnaire représentant un joueur
         :return: Le plateau du joueur (une liste de listes)
         """
     if not type_joueur(joueur):
-        raise TypeError("getCouleurJoueur : Le paramètre ne correspond pas à un joueur")
+        raise TypeError("getPlateauJoueur : Le paramètre ne correspond pas à un joueur")
     plateau = joueur[const.PLATEAU]
 
     return plateau
 
-def getPlacerPionJoueur(joueur: dict):
+def getPlacerPionJoueur(joueur: dict) -> callable:
     """
     Fonction qui reçoit un dictionnaire représentant un joueur et renvoie la fonction de placement de pion du joueur
     :param joueur: Dictionnaire représentant un joueur
     :return: La fonction de placement de pion du joueur
     """
     if not type_joueur(joueur):
-        raise TypeError("getCouleurJoueur : Le paramètre ne correspond pas à un joueur")
+        raise TypeError("getPlacerPionJoueur : Le paramètre ne correspond pas à un joueur")
     placer_pion = joueur[const.PLACER_PION]
     return placer_pion
+
+def getPionJoueur(joueur: dict) -> dict:
+    """
+    Fonction qui reçoit un dictionnaire représentant un joueur et retourne un pion de la couleur du joueur
+    :param joueur: Dictionnaire représentant un joueur
+    :return: Un pion de la couleur du joueur
+    """
+    if not type_joueur(joueur):
+        raise TypeError("getPionJoueur : Le paramètre ne correspond pas à un joueur")
+
+    couleur = joueur[const.COULEUR]
+    pion = {const.COULEUR: couleur, const.ID: None}
+    return pion
