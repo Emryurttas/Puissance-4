@@ -235,14 +235,11 @@ def getPionsGagnantsPlateau(plateau: list) -> list:
     pions_gagnants = []
 
     for couleur in [0, 1]:
-        series_couleur = []
-        series_couleur.extend(detecter4diagonaleIndirectePlateau(plateau, couleur))
-        series_couleur.extend(detecter4diagonaleDirectePlateau(plateau, couleur))
-        series_couleur.extend(detecter4verticalPlateau(plateau, couleur))
-        series_couleur.extend(detecter4horizontalPlateau(plateau, couleur))
+        pions_gagnants.extend(detecter4diagonaleIndirectePlateau(plateau, couleur))
+        pions_gagnants.extend(detecter4diagonaleDirectePlateau(plateau, couleur))
+        pions_gagnants.extend(detecter4verticalPlateau(plateau, couleur))
+        pions_gagnants.extend(detecter4horizontalPlateau(plateau, couleur))
 
-        if series_couleur:
-            pions_gagnants.append(series_couleur)
     return pions_gagnants
 
 def isRempliPlateau(plateau: list) -> bool:
