@@ -1,6 +1,5 @@
-from Model.Constantes import *
 from Model.Pion import *
-
+from Model.Constantes import *
 
 #
 # Le plateau représente la grille où sont placés les pions.
@@ -228,10 +227,10 @@ def getPionsGagnantsPlateau(plateau: list) -> list:
     pions_gagnants = []
 
     for couleur in [0, 1]:
-        pions_gagnants.extend(detecter4diagonaleIndirectePlateau(plateau, couleur))
-        pions_gagnants.extend(detecter4diagonaleDirectePlateau(plateau, couleur))
-        pions_gagnants.extend(detecter4verticalPlateau(plateau, couleur))
         pions_gagnants.extend(detecter4horizontalPlateau(plateau, couleur))
+        pions_gagnants.extend(detecter4verticalPlateau(plateau, couleur))
+        pions_gagnants.extend(detecter4diagonaleDirectePlateau(plateau, couleur))
+        pions_gagnants.extend(detecter4diagonaleIndirectePlateau(plateau, couleur))
 
     return pions_gagnants
 
@@ -272,3 +271,70 @@ def construireJoueur(couleur: int) -> dict:
         raise ValueError(f"detecter4diagonaleDirectePlateau : La valeur de la couleur {couleur} n’est pas correcte")
     joueur = {const.COULEUR: couleur, const.PLATEAU: None, const.PLACER_PION: None}
     return joueur
+
+
+def placerPionLignePlateau(plateau: list, pion: dict, ligne: int, left: bool) -> bool:
+    """
+    Place le pion sur la ligne indiquée par la gauche si le booléen left vaut True ou par la droite sinon,
+    en poussant les éventuels pions existants sur la ligne. Retourne un tuple constitué de la liste des pions
+    poussés (commençant par le pion ajouté) et un entier correspondant au numéro de ligne où se retrouve
+    le dernier pion de la liste ou None si le dernier pion ne change pas de ligne. Si le dernier pion est éjecté du
+    plateau, l’entier vaudra const.NB_LINES.
+
+    :param plateau: Liste représentant le plateau du jeu.
+    :param pion: Dictionnaire représentant le pion à placer.
+    :param ligne: Numéro de ligne où placer le pion (entre 0 et const.NB_LINES - 1).
+    :param left: Booléen indiquant si le pion est poussé par la gauche (True) ou la droite (False).
+    :return: Tuple (pions_pousses, dernier_pion_ligne)
+    """
+    # Validation des types de paramètres
+    if not type_plateau(plateau):
+        raise TypeError("placerPionLignePlateau : Le premier paramètre n’est pas un plateau")
+    if not type_pion(pion):
+        raise TypeError("placerPionLignePlateau : Le second paramètre n’est pas un pion")
+    if type(ligne) is not int:
+        raise TypeError("placerPionLignePlateau : le troisième paramètre n’est pas un entier")
+    if ligne < 0 or ligne >= const.NB_LINES:
+        raise ValueError(f"placerPionLignePlateau : Le troisième paramètre ({ligne}) ne désigne pas une ligne")
+    if type(left) is not bool:
+        raise TypeError("placerPionLignePlateau : le quatrième paramètre n’est pas un booléen")
+
+    pions_pousses = [pion]
+    dernier_pion_ligne = None
+
+    if left:
+        for i in range(const.NB_COLUMNS - 1, 0, -1):
+            if plateau[ligne][i - 1] is not None:
+                pions_pousses.append(plateau[ligne][i - 1])
+
+
+        for i in range(1, const.NB_LINES):
+            if ligne + i < const.NB_LINES and plateau[ligne + i][0] is None:
+                dernier_pion_ligne = ligne + i
+            elif ligne + i >= const.NB_LINES or plateau[ligne + i][0] is not None:
+                dernier_pion_ligne = min(ligne + i - 1, const.NB_LINES - 1)
+
+
+        pions_a_placer = pions_pousses
+
+    else:
+        for i in range(const.NB_COLUMNS - 1):
+            if plateau[ligne][i + 1] is not None:
+                pions_pousses.append(plateau[ligne][i + 1])
+
+
+        for i in range(1, const.NB_LINES):
+            if ligne + i < const.NB_LINES and plateau[ligne + i][const.NB_COLUMNS - 1] is None:
+                dernier_pion_ligne = ligne + i
+            elif ligne + i >= const.NB_LINES or plateau[ligne + i][const.NB_COLUMNS - 1] is not None:
+                dernier_pion_ligne = min(ligne + i - 1, const.NB_LINES - 1)
+
+
+        pions_a_placer = pions_pousses
+
+
+    for i, pion in enumerate(pions_a_placer):
+        if dernier_pion_ligne is not None:
+            target_line = min(dernier_pion_ligne + i, const.NB_LINES - 1)
+            plateau[target_line][0] = pion
+    return pions_pousses, dernier_pion_ligne

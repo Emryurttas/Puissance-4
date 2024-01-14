@@ -8,76 +8,43 @@ line = placerPionPlateau(p, pion, 2)
 print("Placement d’un pion en colonne 2. Numéro de ligne :", line)
 print(p)
 # Essais sur les couleurs
-print("\x1B[43m \x1B[0m : carré jaune ")
-print("\x1B[41m \x1B[0m : carré rouge ")
-print("\x1B[41mA\x1B[0m : A sur fond rouge")
-def test_detecter4horizontalPlateau () -> None:
-    exemple_plateau = [
-        [1, 1, 1, 1, 0, 1, 1],
-        [1, 1, 1, 0, 1, 1, 0],
-        [1, 1, 1, 0, 1, 1, 1],
-        [1, 1, 1, 0, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 0, 1, 1, 1],
-    ]
-    resultat_detection = detecter4horizontalPlateau(exemple_plateau, 1)
-    print(resultat_detection)
-    return None
 
-test_detecter4horizontalPlateau()
 
-def test_detecter4verticalPlateau() -> None:
-    exemple_plateau = [
-        [1, 1, 1, 1, 1, 1, 1],
-        [0, 0, 1, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 1, 0],
-        [0, 1, 1, 0, 1, 1, 1],
-        [1, 0, 0, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1, 1, 1],
-    ]
-    resultat_detection = detecter4verticalPlateau(exemple_plateau, 1)
-    print(resultat_detection)
-    return None
+def couleur_carre(color):
+    if color == 0:
+        return "\x1B[43m \x1B[0m"  # Carré jaune
+    elif color == 1:
+        return "\x1B[41m \x1B[0m"  # Carré rouge
+    else:
+        return " "
 
-test_detecter4verticalPlateau()
-def test_detecter4diagonaleDirectePlateau() -> None:
-    exemple_plateau = [
-        [1, 1, 1, 1, 1, 1, 1],
-        [0, 1, 1, 1, 1, 0, 1],
-        [1, 0, 0, 1, 0, 1, 0],
-        [0, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1, 1, 1],
-    ]
-    resultat_detection = detecter4diagonaleDirectePlateau(exemple_plateau, 1)
-    print(resultat_detection)
-    return None
-test_detecter4diagonaleDirectePlateau()
+def gagnant(board, piece_gagnant):
+    for row in board:
+        row_str = ""
+        for square in row:
+            if {'Couleur': square} in piece_gagnant:
+                row_str += f"\x1B[31m{couleur_carre(square)}\x1B[0m"
+            else:
+                row_str += couleur_carre(square)
+        print(row_str)
+# Exemple de plateau
+exemple_plateau = [
+    [1, 1, 1, 1, 0, 1, 1],
+    [0, 1, 0, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 1, 1],
+    [0, 1, 1, 1, 0, 1, 1],
+    [1, 0, 0, 1, 0, 0, 0],
+    [0, 1, 1, 0, 1, 1, 1],
+]
 
-def test_detecter4diagonaleIndirectePlateau() -> None:
-    exemple_plateau = [
-        [1, 1, 1, 1, 1, 1, 1],
-        [0, 1, 1, 1, 1, 0, 1],
-        [1, 0, 1, 0, 0, 1, 1],
-        [0, 1, 0, 1, 0, 1, 1],
-        [1, 0, 0, 1, 0, 1, 1],
-        [0, 1, 1, 1, 1, 1, 1],
-    ]
-    resultat_detection = detecter4diagonaleIndirectePlateau(exemple_plateau, 1)
-    print(resultat_detection)
-    return None
-test_detecter4horizontalPlateau()
+# Pièces gagnantes
+piece_gagnant = [{'Couleur': 1}, {'Couleur': 1}, {'Couleur': 1}, {'Couleur': 1}]
 
-def test_getPionsGagnantsPlateau() -> None:
-    exemple_plateau = [
-        [1, 1, 0, 1, 0, 1, 1],
-        [0, 0, 0, 1, 1, 0, 1],
-        [1, 0, 1, 0, 0, 1, 0],
-        [0, 1, 1, 1, 0, 1, 0],
-        [1, 0, 0, 1, 0, 0, 0],
-        [0, 1, 1, 0, 1, 1, 1],
-    ]
-    resultat_detection = getPionsGagnantsPlateau(exemple_plateau)
-    print(resultat_detection)
-    return None
-test_getPionsGagnantsPlateau()
+# Affichage du plateau avec les pièces gagnantes mises en évidence
+gagnant(exemple_plateau, piece_gagnant)
+
+print(detecter4horizontalPlateau(exemple_plateau, 1))
+print(detecter4verticalPlateau(exemple_plateau, 1))
+print(detecter4diagonaleDirectePlateau(exemple_plateau, 1))
+print(detecter4diagonaleIndirectePlateau(exemple_plateau, 1))
+print(getPionsGagnantsPlateau(exemple_plateau))
