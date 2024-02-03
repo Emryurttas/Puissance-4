@@ -54,7 +54,7 @@ def placerPionPlateau(plateau: list, pion: dict, num_col: int) -> int:
     :param num_col: le numéro de colonne pour placer le pion dans le plateau
     :return: retourne le numéro de ligne où se trouve le pion
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError("placerPionPlateau : Le premier paramètre ne correspond pas à un plateau")
     if type(pion) is not dict:
         raise TypeError("placerPionPlateau : Le second paramètre n’est pas un pion ")
@@ -79,7 +79,7 @@ def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
     du couleur passé en paramètre,
     sinon une liste de pions de la couleur donnée en paramètre qui sont alignés par 4
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError("detecter4horizontalPlateau : Le premier paramètre ne correspond pas à un plateau")
     if type(couleur) is not int:
         raise TypeError("detecter4horizontalPlateau : Le second paramètre n’est pas un entier")
@@ -88,8 +88,8 @@ def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
     serie_liste = []
     tab = []
     for ligne in range(const.NB_LINES):
-        for col in range(const.NB_COLUMNS-3):
-            if plateau[ligne][col] == couleur and plateau[ligne][col + 1] == couleur and plateau[ligne][col + 2] == couleur and plateau[ligne][col + 3] == couleur:
+        for col in range(const.NB_COLUMNS - 3):
+            if plateau[ligne][col] is not None and plateau[ligne][col][const.COULEUR] == couleur and plateau[ligne][col + 1] is not None and plateau[ligne][col + 1][const.COULEUR] == couleur and plateau[ligne][col + 2] is not None and plateau[ligne][col + 2][const.COULEUR] == couleur and plateau[ligne][col + 3] is not None and plateau[ligne][col + 3][const.COULEUR] == couleur:
                 coord_pions = [(ligne, col),
                                (ligne, col + 1),
                                (ligne, col + 2),
@@ -101,8 +101,9 @@ def detecter4horizontalPlateau(plateau: list, couleur: int) -> list:
                 if i == 4:
                     tab.extend(coord_pions)
 
-    for i in range(len(tab)):
-        serie_liste.append({const.COULEUR: couleur})
+    for coord in tab:
+        serie_liste.append(plateau[coord[0]][coord[1]])
+
     return serie_liste
 
 def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
@@ -113,7 +114,7 @@ def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
     :return:retourne une liste vide s’il n’y a aucune série de 4 pions de la couleur donnée alignés
     verticalement, sinon une liste de ces pions qui sont alignés par 4
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError("detecter4verticalPlateau : Le premier paramètre ne correspond pas à un plateau")
     if type(couleur) is not int:
         raise TypeError("detecter4verticalPlateau : Le second paramètre n’est pas un entier")
@@ -123,21 +124,24 @@ def detecter4verticalPlateau(plateau: list, couleur: int) -> list:
     serie_liste = []
     tab = []
     for col in range(const.NB_COLUMNS):
-        for ligne in range(const.NB_LINES-3):
-            if plateau[ligne][col] == couleur and plateau[ligne+1][col] == couleur and plateau[ligne+2][col] == couleur and plateau[ligne+3][col] == couleur:
+        for ligne in range(const.NB_LINES - 3):
+            if (plateau[ligne][col] is not None and plateau[ligne][col][const.COULEUR] == couleur and
+                plateau[ligne + 1][col] is not None and plateau[ligne + 1][col][const.COULEUR] == couleur and
+                plateau[ligne + 2][col] is not None and plateau[ligne + 2][col][const.COULEUR] == couleur and
+                plateau[ligne + 3][col] is not None and plateau[ligne + 3][col][const.COULEUR] == couleur):
                 coord_pions = [(ligne, col),
-                               (ligne+1, col),
-                               (ligne+2, col),
-                               (ligne+3, col)
-                               ]
+                               (ligne + 1, col),
+                               (ligne + 2, col),
+                               (ligne + 3, col)]
                 i = 0
                 while i < 4 and not (coord_pions[i] in tab):
                     i += 1
                 if i == 4:
                     tab.extend(coord_pions)
 
-    for i in range(len(tab)):
-        serie_liste.append({const.COULEUR: couleur})
+    for coord in tab:
+        serie_liste.append(plateau[coord[0]][coord[1]])
+
     return serie_liste
 
 
@@ -150,30 +154,37 @@ def detecter4diagonaleDirectePlateau(plateau: list, couleur: int) -> list:
     :return: retourne une liste vide s’il n’y a aucune série de 4 pions de la couleur donnée alignee
     sur une diagonale « directe », sinon une liste de ces pions qui sont alignés par 4
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError("detecter4verticalPlateau : Le premier paramètre ne correspond pas à un plateau")
     if type(couleur) is not int:
         raise TypeError("detecter4diagonaleDirectePlateau : Le second paramètre n’est pas un entier")
     if couleur not in [0, 1]:
         raise ValueError(f"detecter4diagonaleDirectePlateau : La valeur de la couleur {couleur} n’est pas correcte")
+
     serie_liste = []
     tab = []
     for ligne in range(const.NB_LINES - 3):
         for col in range(const.NB_COLUMNS - 3):
-            if plateau[ligne][col] == couleur and plateau[ligne+1][col+1] == couleur and plateau[ligne+2][col+2] == couleur and plateau[ligne+3][col+3] == couleur:
-                coord_pions = [(ligne, col),
-                               (ligne + 1, col + 1),
-                               (ligne + 2, col + 2),
-                               (ligne + 3, col + 3)
-                               ]
+            # Vérifier la diagonale directe
+            if (plateau[ligne][col] is not None and plateau[ligne][col][const.COULEUR] == couleur and
+                plateau[ligne+1][col+1] is not None and plateau[ligne+1][col+1][const.COULEUR] == couleur and
+                plateau[ligne+2][col+2] is not None and plateau[ligne+2][col+2][const.COULEUR] == couleur and
+                plateau[ligne+3][col+3] is not None and plateau[ligne+3][col+3][const.COULEUR] == couleur):
+                coord_pions = [
+                    (ligne, col),
+                    (ligne + 1, col + 1),
+                    (ligne + 2, col + 2),
+                    (ligne + 3, col + 3)
+                ]
+
                 i = 0
                 while i < 4 and not (coord_pions[i] in tab):
                     i += 1
                 if i == 4:
                     tab.extend(coord_pions)
 
-    for i in range(len(tab)):
-        serie_liste.append({const.COULEUR: couleur})
+    for coord in tab:
+        serie_liste.append(plateau[coord[0]][coord[1]])
 
     return serie_liste
 
@@ -186,7 +197,7 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
     :return:retourne une liste vide s’il n’y a aucune série de 4 pions de la couleur donnée
     alignés sur une diagonale « indirecte », sinon une liste de ces pions qui sont alignés par 4
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError("detecter4diagonaleIndirectePlateau : Le premier paramètre ne correspond pas à un plateau")
     if type(couleur) is not int:
         raise TypeError("detecter4diagonaleIndirectePlateau : Le second paramètre n’est pas un entier")
@@ -196,12 +207,15 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
     tab = []
     for ligne in range(3, const.NB_LINES):
         for col in range(const.NB_COLUMNS - 3):
-            if plateau[ligne][col] == couleur and plateau[ligne-1][col+1] == couleur and plateau[ligne-2][col+2] == couleur and plateau[ligne-3][col+3] == couleur:
+            if (plateau[ligne][col] is not None and plateau[ligne][col][const.COULEUR] == couleur and
+                plateau[ligne-1][col+1] is not None and plateau[ligne-1][col+1][const.COULEUR] == couleur and
+                plateau[ligne-2][col+2] is not None and plateau[ligne-2][col+2][const.COULEUR] == couleur and
+                plateau[ligne-3][col+3] is not None and plateau[ligne-3][col+3][const.COULEUR] == couleur):
                 coord_pions = [
-                    (ligne - 3, col + 3),
-                    (ligne - 2, col + 2),
+                    (ligne, col),
                     (ligne - 1, col + 1),
-                    (ligne, col)
+                    (ligne - 2, col + 2),
+                    (ligne - 3, col + 3)
                 ]
 
                 i = 0
@@ -209,11 +223,11 @@ def detecter4diagonaleIndirectePlateau(plateau: list, couleur: int) -> list:
                     i += 1
                 if i == 4:
                     tab.extend(coord_pions)
-    for i in range(len(tab)):
-        serie_liste.append({const.COULEUR: couleur})
+
+    for coord in tab:
+        serie_liste.append(plateau[coord[0]][coord[1]])
+
     return serie_liste
-
-
 def getPionsGagnantsPlateau(plateau: list) -> list:
     """
     Fonction qui cherche toutes les séries s de 4 pions alignés trouvées, pour
@@ -222,7 +236,7 @@ def getPionsGagnantsPlateau(plateau: list) -> list:
     :return:retourne la liste de toutes les séries de 4 pions alignés trouvées, pour
     les deux couleurs
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError("getPionsGagnantsPlateau : Le paramètre ne correspond pas à un plateau")
     pions_gagnants = []
 
@@ -241,7 +255,7 @@ def isRempliPlateau(plateau: list) -> bool:
     :param plateau: Liste de liste qui définit le plateau du jeu
     :return: i retourne True si le plateau est complètement rempli de pions, False sinon
     """
-    if type(plateau) is not list:
+    if not type_plateau(plateau):
         raise TypeError("isRempliPlateau : Le paramètre ne correspond pas à un plateau")
     i = 0
     est_rempli = True
@@ -327,7 +341,7 @@ def placerPionLignePlateau(plateau: list, pion: dict, ligne: int, left: bool) ->
             if ligne + i < const.NB_LINES and plateau[ligne + i][const.NB_COLUMNS - 1] is None:
                 dernier_pion_ligne = ligne + i
             elif ligne + i >= const.NB_LINES or plateau[ligne + i][const.NB_COLUMNS - 1] is not None:
-                dernier_pion_ligne = min(ligne + i - 1, const.NB_LINES - 1)
+                dernier_pion_ligne = plateau[ligne][i+1]
 
 
         pions_a_placer = pions_pousses
